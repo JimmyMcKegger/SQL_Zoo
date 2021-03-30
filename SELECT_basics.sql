@@ -1,13 +1,14 @@
 --https://sqlzoo.net/wiki/SELECT_basics
 
 --1
-SELECT population FROM world
-  WHERE name = 'Germany'
+SELECT name, continent, population FROM world
 
 --2
-SELECT name, population FROM world
-  WHERE name IN ('Sweden', 'Norway', 'Denmark');
+SELECT name
+  FROM world
+ WHERE population > 200000000
 
 --3
-SELECT name, area FROM world
-  WHERE area BETWEEN 200000 AND 250000
+SELECT name, gdp/population
+FROM world
+WHERE population > 200000000
