@@ -1,7 +1,7 @@
 --1
 SELECT id, title
- FROM movie
- WHERE yr=1962
+FROM movie
+WHERE yr = 1962
 
 --2
 SELECT yr
@@ -60,7 +60,7 @@ WHERE id IN (SELECT movieid
 SELECT title, name
 FROM movie
 JOIN casting
-ON id=movieid
+  ON id=movieid
 JOIN actor
 ON actor.id=actorid
 WHERE ord = 1
@@ -68,8 +68,10 @@ AND yr = 1962
 
 --11
 SELECT yr,COUNT(title) FROM
-  movie JOIN casting ON movie.id=movieid
-        JOIN actor   ON actorid=actor.id
+  movie JOIN casting 
+          ON movie.id=movieid
+        JOIN actor   
+          ON actorid=actor.id
 WHERE name='Rock Hudson'
 GROUP BY yr
 HAVING COUNT(title) > 1
@@ -78,9 +80,9 @@ HAVING COUNT(title) > 1
 SELECT movie.title, actor.name
 FROM movie
 JOIN casting
-ON movie.id = casting.movieid
+  ON movie.id = casting.movieid
 JOIN actor
-ON casting.actorid = actor.id
+  ON casting.actorid = actor.id
 WHERE movie.id IN   (SELECT casting.movieid 
                     FROM casting 
                     WHERE actorid = (SELECT id 
@@ -92,18 +94,18 @@ WHERE movie.id IN   (SELECT casting.movieid
 SELECT name
 FROM actor
 JOIN casting
-    ON (actor.id = casting.actorid
-    AND (SELECT COUNT(ord) 
-        FROM casting 
-        WHERE actorid = actor.id 
-        AND ord=1) >= 15)
+  ON (actor.id = casting.actorid
+      AND (SELECT COUNT(ord) 
+      FROM casting 
+      WHERE actorid = actor.id 
+      AND ord=1) >= 15)
 GROUP BY name
 
 --14
 SELECT title, COUNT(actorid)
 FROM movie
 JOIN casting
-    ON id = movieid
+  ON id = movieid
 WHERE movie.yr = 1978
 GROUP BY title
 ORDER BY COUNT(actorid) DESC, title
@@ -112,10 +114,10 @@ ORDER BY COUNT(actorid) DESC, title
 SELECT DISTINCT name
 FROM actor
 JOIN casting 
-    ON id = actorid
+  ON id = actorid
 WHERE movieid IN (SELECT movieid 
                     FROM casting 
                     JOIN actor 
-                    ON actorid = id 
+                      ON actorid = id 
                     WHERE name = 'Art Garfunkel')
 AND name != 'Art Garfunkel'
