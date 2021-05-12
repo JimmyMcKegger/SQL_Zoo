@@ -75,3 +75,28 @@ FROM route a
 WHERE stopa.name='Craiglockhart'
 
 --10
+SELECT l.num, l.company, l.transfer, r.num, r.company
+FROM (
+  SELECT DISTINCT a.num, a.company, stopsb.name AS transfer
+  FROM route AS a 
+    JOIN route AS b
+    ON a.company = b.company AND a.num = b.num
+    JOIN stops AS stopsa
+    ON a.stop = stopsa.id
+    JOIN stops AS stopsb
+    ON b.stop = stopsb.id
+  WHERE stopsa.name = 'Craiglockhart'
+) AS l
+JOIN (
+  SELECT DISTINCT c.num, c.company, stopsc.name AS departure
+  FROM route AS c 
+    JOIN route AS d
+    ON c.company = d.company AND c.num = d.num
+    JOIN stops AS stopsc
+    ON c.stop = stopsc.id
+    JOIN stops AS stopsd
+    ON d.stop = stopsd.id
+  WHERE stopsd.name = 'Lochend'
+) AS r
+ON l.transfer = r.departure
+ORDER BY l.num, l.transfer, r.num
